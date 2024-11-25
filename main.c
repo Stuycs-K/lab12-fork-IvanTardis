@@ -12,14 +12,26 @@
 #include <sys/wait.h>
 
 int main(){
-  pid_t p;
-  p = fork();
-  if(p<0){
+  printf("%d about to create 2 child processes\n", getpid());
+
+  pid_t p1, p2;
+  p1 = fork();
+  if(p1<0){
     perror("fork fail");//output to stderr instead of stdout
     exit(1);
-  } else if ( p == 0){
-      printf("Hello from Child!\n");
+  } else if ( p1 == 0){
+    int rand;
+    printf("%d %dsec\n", getpid(), rand);
+    // printf("Hello from Child! PID: %d\n", getpid());
   }else{
-      printf("Hello from Parent!\n");
-  }   
+    p2 = fork();
+    if ( p2 == 0){
+      int rand;
+      printf("%d %dsec\n", getpid(), rand);
+      // printf("Hello from Child! PID: %d\n", getpid());
+    }
+    else{
+      // printf("Hello from Parent! PID: %d\n", getpid());
+    }
+  }
 }
